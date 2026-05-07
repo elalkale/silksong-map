@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Silksong — Mapa Interactivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <div class="logo-area">
+        <div class="logo-emblem">⟡</div>
+        <div>
+          <h1>Hollow Knight</h1>
+          <span class="subtitle">Silksong · Mapa Interactivo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="progress-section">
+      <div class="progress-label">
+        <span>Progreso global</span>
+        <span id="progress-text">0 / 0</span>
+      </div>
+      <div class="progress-bar-track">
+        <div class="progress-bar-fill" id="progress-bar"></div>
+      </div>
+    </div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.2"/><path d="M10.5 10.5L14 14" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      <input type="text" id="search-input" placeholder="Buscar marcador..." autocomplete="off" />
+      <button id="search-clear" class="search-clear" title="Limpiar">×</button>
+    </div>
+
+    <div class="filters-section">
+      <p class="section-label">Categorías</p>
+      <div class="filter-list" id="filter-list">
+        <button class="filter-btn active" data-type="bench"><span class="filter-dot" style="background:#F5C842"></span><span class="filter-name">Bancos</span><span class="filter-count" id="fc-bench">0</span></button>
+        <button class="filter-btn active" data-type="npc"><span class="filter-dot" style="background:#4EC994"></span><span class="filter-name">NPCs</span><span class="filter-count" id="fc-npc">0</span></button>
+        <button class="filter-btn active" data-type="boss"><span class="filter-dot" style="background:#E05252"></span><span class="filter-name">Jefes</span><span class="filter-count" id="fc-boss">0</span></button>
+        <button class="filter-btn active" data-type="collectible"><span class="filter-dot" style="background:#C87BE8"></span><span class="filter-name">Coleccionables</span><span class="filter-count" id="fc-collectible">0</span></button>
+        <button class="filter-btn active" data-type="skill"><span class="filter-dot" style="background:#5AB4F0"></span><span class="filter-name">Habilidades</span><span class="filter-count" id="fc-skill">0</span></button>
+        <button class="filter-btn active" data-type="secret"><span class="filter-dot" style="background:#E8A84A"></span><span class="filter-name">Secretos</span><span class="filter-count" id="fc-secret">0</span></button>
+        <button class="filter-btn active" data-type="shop"><span class="filter-dot" style="background:#7EC8C8"></span><span class="filter-name">Tiendas</span><span class="filter-count" id="fc-shop">0</span></button>
+      </div>
+    </div>
+
+    <div class="toggle-row">
+      <span class="toggle-label">Mostrar completados</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="toggle-completed" checked />
+        <span class="toggle-thumb"></span>
+      </label>
+    </div>
+
+    <div id="search-results" class="search-results hidden"></div>
+
+    <div id="detail-panel" class="detail-panel hidden">
+      <div class="detail-header">
+        <span class="detail-type-badge" id="detail-type"></span>
+        <button class="detail-close" id="detail-close">×</button>
+      </div>
+      <h2 class="detail-name" id="detail-name"></h2>
+      <p class="detail-area" id="detail-area"></p>
+      <p class="detail-desc" id="detail-desc"></p>
+      <button class="complete-btn" id="complete-btn"></button>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="footer-btn" id="btn-reset-view">
+        <svg viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="2" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="9" y="9" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+        Centrar
+      </button>
+      <button class="footer-btn danger" id="btn-clear-progress">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M3 4h10M6 4V2.5a.5.5 0 01.5-.5h3a.5.5 0 01.5.5V4M5.5 4l.5 9M10.5 4l-.5 9M8 4v9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        Reset
+      </button>
+    </div>
+  </aside>
+
+  <main id="map-container">
+    <div id="map-viewport">
+      <div id="map-world">
+        <img id="map-image" src="/images/map.webp" alt="Mapa Silksong" draggable="false" />
+        <div id="markers-layer"></div>
+      </div>
+    </div>
+
+    <div class="zoom-controls">
+      <button class="zoom-btn" id="zoom-in">+</button>
+      <span class="zoom-label" id="zoom-label">100%</span>
+      <button class="zoom-btn" id="zoom-out">−</button>
+    </div>
+
+    <div class="coords-display" id="coords-display"></div>
+    <div class="toast" id="toast"></div>
+  </main>
+
+  <div class="map-tooltip" id="map-tooltip"></div>
+
+  <!-- Un solo script: los datos llegan por API, no como variable global -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

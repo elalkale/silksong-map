@@ -1,0 +1,13 @@
+{
+  "name": "silksong-map",
+  "version": "1.0.0",
+  "description": "Interactive map for Hollow Knight: Silksong",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "express": "^4.22.1"
+  }
+}
